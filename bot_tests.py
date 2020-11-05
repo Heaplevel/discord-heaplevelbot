@@ -1,6 +1,7 @@
+import random
 import yfinance
-cache = {}
 
+cache = {}
 
 def finance_history(stock):
     ticker = get_ticker(stock)
@@ -30,7 +31,15 @@ def finance_helper(stock):
     return summary
 
 
-res = finance_helper('msft')
-history = finance_history('msft')
-print(res)
-print(history)
+def roll(dice: str):
+    """Rolls a dice in NdN format."""
+    try:
+        rolls, limit = map(int, dice.split('d'))
+    except Exception:
+        return
+
+    result = ', '.join(str(random.randint(1, limit)) for _ in range(rolls))
+    return result
+
+
+print(roll('10d6'))

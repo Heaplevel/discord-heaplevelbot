@@ -1,4 +1,5 @@
 import os
+import random
 
 import yfinance
 
@@ -41,8 +42,19 @@ def finance_helper(stock):
 
 
 @bot.event
+async def on_error(event: str):
+    print('Just another error ' + event)
+
+
+@bot.event
 async def on_ready():
     print('Im ready')
+    print('Logged in as')
+    print(bot.user.name)
+    print(bot.user.id)
+    print('------')
+    print(bot.guilds)
+    print(bot.emojis)
 
 
 @bot.command()
@@ -81,5 +93,18 @@ async def ticker_error(ctx, error):
 async def add(ctx, left: int, right: int):
     """Adds two numbers together."""
     await ctx.send(left + right)
+
+
+@bot.command()
+async def roll(ctx, dice: str):
+    """Rolls a dice in NdN format."""
+    try:
+        rolls, limit = map(int, dice.split('d'))
+    except Exception:
+        await ctx.send('Format has to be in XdY. X = number of rolls. Y = limit')
+        return
+
+    result = ', '.join(str(random.randint(1, limit)) for _ in range(rolls))
+    await ctx.send(result)
 
 bot.run(TOKEN)
