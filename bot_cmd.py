@@ -88,11 +88,21 @@ async def ticker_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send('That command is missing a parameter')
 
+################################
+
 
 @bot.command()
 async def add(ctx, left: int, right: int):
     """Adds two numbers together."""
     await ctx.send(left + right)
+
+
+@add.error
+async def add_error(ctx, error):
+    if isinstance(error, commands.CommandError):
+        await ctx.send(f'Received general error when adding: <{error}>')
+
+#################################
 
 
 @bot.command()
