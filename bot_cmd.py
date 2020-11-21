@@ -69,7 +69,7 @@ async def test(ctx, a, b):
 @test.error
 async def info_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send('That command is missing a parameter')
+        await ctx.send(f'That command is missing a parameter {error}')
 
 
 @bot.command()
