@@ -8,7 +8,9 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # copy src
-COPY bot_cmd.py .
+COPY *.py discord_bot/
+#COPY bot_cmd.py .
 
-CMD ["python", "bot_cmd.py"]
+ENV PYTHONPATH /app/discord_bot
+CMD ["python", "discord_bot/bot_cmd.py"]
 
