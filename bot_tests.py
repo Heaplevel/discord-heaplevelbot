@@ -1,34 +1,24 @@
 import random
-import yfinance
+import logging
+
+import discord_bot.finance_helper as ft
+
+logger = logging.getLogger('test_logger')
+logger.setLevel(logging.DEBUG)
+
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+
+logger.addHandler(ch)
+
 
 cache = {}
 
-def finance_history(stock):
-    ticker = get_ticker(stock)
-    return ticker.history()
+ticker = 'AAPL'
 
-
-def get_ticker(stock):
-    ticker = cache.get(stock, None)
-    if not ticker:
-        ticker = yfinance.Ticker(stock)
-        cache.setdefault(stock, ticker)
-    return cache.get(stock)
-
-
-def finance_helper(stock):
-    l = []
-
-    ticker = get_ticker(stock)
-
-    for k,v in ticker.info.items():
-        l.append(':'.join([k,str(v)]))
-
-    recommendations = ticker.recommendations.tail(5).to_string()
-
-    ticker_info = '\n'.join(l[:3])
-    summary = '\n'.join([ticker_info, '', '### RECOMMENDATIONS ### ', recommendations])
-    return summary
+f_history = ft.finance_history(ticker)
+f_ticker = ft.get_ticker(ticker)
+f_info = ft.finance_helper(ticker)
 
 
 def roll(dice: str):
@@ -41,5 +31,7 @@ def roll(dice: str):
     result = ', '.join(str(random.randint(1, limit)) for _ in range(rolls))
     return result
 
-
+logger.info(f_info)
+logger.info(f_ticker)
+logger.info(f_history)
 print(roll('10d6'))

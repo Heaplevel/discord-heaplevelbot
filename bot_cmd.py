@@ -1,67 +1,49 @@
 import os
 import random
+import logging
 
-import yfinance
+# Setup logger
+logger = logging.getLogger('bot_logger')
+logger.setLevel(logging.DEBUG)
+fh = logging.FileHandler('debug_messages.log')
+fh.setLevel(logging.DEBUG)
+
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+
+logger.addHandler(fh)
+logger.addHandler(ch)
+#
 
 from discord.ext import commands
 
+import discord_bot.finance_helper as ft
+
 TOKEN = os.getenv('DISCORD_TOKEN')
 bot = commands.Bot(command_prefix='$')
-cache = {}
-
-def finance_history(stock):
-    ticker = get_ticker(stock)
-    return ticker.history()
-
-
-def get_ticker(stock):
-    ticker = cache.get(stock, None)
-    if not ticker:
-        ticker = yfinance.Ticker(stock)
-        cache.setdefault(stock, ticker)
-    return cache.get(stock)
-
-
-
-def finance_helper(stock):
-    l = []
-
-    ticker = cache.get(stock, None)
-    if not ticker:
-        ticker = yfinance.Ticker(stock)
-        cache.setdefault(stock, ticker)
-
-    for k, v in ticker.info.items():
-        l.append(':'.join([k, str(v)]))
-
-    recommendations = ticker.recommendations.tail(5).to_string()
-
-    ticker_info = '\n'.join(l[:3])
-    summary = '\n'.join([ticker_info, '', '### RECOMMENDATIONS ### ', recommendations])
-    return summary
 
 
 @bot.event
 async def on_error(event: str):
-    print('Just another error ' + event)
+    logger.debug(f'Just another error {event}')
 
 
 @bot.event
 async def on_ready():
-    print('Im ready')
-    print('Logged in as')
-    print(bot.user.name)
-    print(bot.user.id)
-    print('------')
-    print(bot.guilds)
-    print(bot.emojis)
+    logger.debug('Im ready')
+    logger.debug('Logged in as')
+    logger.debug(bot.user.name)
+    logger.debug(bot.user.id)
+    logger.debug('------')
+    logger.debug(bot.guilds)
+    logger.debug(bot.emojis)
 
 
 @bot.command()
 async def test(ctx, a, b):
     old_style = ' OLD STYLE Got {} and {}'.format(a, b)
-    print(f'Got {a} and {b}')
-    print(old_style)
+    logger.debug(f'Got {a} and {b}')
+    logger.debug(old_style)
 
     await ctx.send('ready ' + str(a+b))
 
@@ -74,11 +56,12 @@ async def info_error(ctx, error):
 
 @bot.command()
 async def stocks(ctx, ticker, history=None):
-    print(ctx.message.content, ticker)
+    logger.debug(f'{ctx.message.content} {ticker}')
     if history and history == 'history':
-        data = finance_history(ticker)
+        data = ft.finance_history(ticker)
     else:
-        data = finance_helper(ticker)
+        data = ft.finance_helper(ticker)
+        logger.debug(data)
 
     await ctx.send(data)
 
