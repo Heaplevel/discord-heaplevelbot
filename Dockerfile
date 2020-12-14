@@ -12,5 +12,5 @@ COPY *.py discord_bot/
 #COPY bot_cmd.py .
 
 ENV PYTHONPATH /app/discord_bot
-CMD ["python", "discord_bot/bot_cmd.py"]
+CMD ["python", "-u", "discord_bot/bot_cmd.py"]
 
