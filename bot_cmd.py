@@ -49,14 +49,14 @@ async def test(ctx, a, b):
 
 
 @test.error
-async def info_error(ctx, error):
+async def info_error(ctx, error: str):
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send(f'That command is missing a parameter {error}')
+        await ctx.send(f'That command is missing a parameter. {error}')
 
 
 @bot.command()
 async def stocks(ctx, ticker, history=None):
-    logger.debug(f'{ctx.message.content} {ticker}')
+    logger.debug(f'{ctx.message.content} <{ticker}>')
     if history and history == 'history':
         data = ft.finance_history(ticker)
     else:
