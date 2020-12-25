@@ -58,12 +58,12 @@ async def info_error(ctx, error: str):
 async def stocks(ctx, ticker, history=None):
     logger.debug(f'{ctx.message.content} <{ticker}>')
 
-    await ctx.send(f'Retrieving stock info {ticker}')
-
     if history and history == 'history':
         data = ft.finance_history(ticker)
     else:
+        await ctx.send(f'Retrieving stock info {ticker}')
         data = ft.finance_helper(ticker)
+        await ctx.send(f'Tada!')
         logger.debug(data)
 
     await ctx.send(data)
