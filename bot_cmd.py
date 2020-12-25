@@ -57,6 +57,9 @@ async def info_error(ctx, error: str):
 @bot.command()
 async def stocks(ctx, ticker, history=None):
     logger.debug(f'{ctx.message.content} <{ticker}>')
+
+    await ctx.send(f'Retrieving stock info {ticker}')
+
     if history and history == 'history':
         data = ft.finance_history(ticker)
     else:
