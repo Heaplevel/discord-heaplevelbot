@@ -55,11 +55,20 @@ async def info_error(ctx, error: str):
 
 
 @bot.command()
-async def stocks(ctx, ticker, param=None):
+async def sendfile(ctx, ticker):
+    from discord.file import File
+
+    path = ft.finance_plot(ticker)
+    with open(path, 'rb') as img:
+        await ctx.send(file=File(img))
+
+
+@bot.command()
+async def stocks(ctx, ticker, param=None, start=None, end=None):
     logger.debug(f'{ctx.message.content} <{ticker}>')
 
     if param and param == 'history':
-        data = ft.finance_history(ticker)
+        data = ft.finance_history(ticker, start, end)
     elif param == 'calendar':
         data = ft.finance_calendar(ticker)
     else:

@@ -20,6 +20,7 @@ f_history = ft.finance_history(ticker)
 f_ticker = ft.get_ticker(ticker)
 f_info = ft.finance_helper(ticker)
 f_calendar = ft.finance_calendar(ticker)
+f_path = ft.finance_plot(ticker)
 
 def roll(dice: str):
     """Rolls a dice in NdN format."""
@@ -31,8 +32,12 @@ def roll(dice: str):
     result = ', '.join(str(random.randint(1, limit)) for _ in range(rolls))
     return result
 
+
 logger.info(f_info)
 logger.info(f_ticker)
 logger.info(f_history)
 logger.info(f_calendar)
+logger.info(f_path)
 print(roll('10d6'))
+
+

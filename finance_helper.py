@@ -7,8 +7,10 @@ cache = {}
 cache_hits, cache_miss = 0, 0
 
 
-def finance_history(stock):
+def finance_history(stock, start=None, end=None):
     ticker = get_ticker(stock)
+    if start and end:
+        return ticker.history(start=start, end=end)
     return ticker.history()
 
 
@@ -53,3 +55,18 @@ def finance_calendar(stock):
     return ticker.calendar
 
 
+def finance_plot(stock):
+    import matplotlib.pyplot as plt
+    import tempfile
+
+    data = finance_history(stock, start='2020-10-01', end='2020-10-30')
+
+    path = tempfile.mkstemp(suffix='.png')[1]
+    plt.plot(data)
+    plt.savefig(path)
+    plt.close()
+
+    return path
+
+    #with open(path,'rb') as img:
+    #    await ctx.send(file=File(img))
