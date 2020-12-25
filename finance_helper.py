@@ -46,3 +46,10 @@ def finance_helper(stock):
 
     summary = '\n'.join([ticker_info, '', '### RECOMMENDATIONS ### ', recommendations])
     return summary
+
+
+def finance_calendar(stock):
+    ticker = get_ticker(stock)
+    return ticker.calendar
+
+

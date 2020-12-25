@@ -55,11 +55,13 @@ async def info_error(ctx, error: str):
 
 
 @bot.command()
-async def stocks(ctx, ticker, history=None):
+async def stocks(ctx, ticker, param=None):
     logger.debug(f'{ctx.message.content} <{ticker}>')
 
-    if history and history == 'history':
+    if param and param == 'history':
         data = ft.finance_history(ticker)
+    elif param == 'calendar':
+        data = ft.finance_calendar(ticker)
     else:
         await ctx.send(f'Retrieving stock info {ticker}')
         data = ft.finance_helper(ticker)
@@ -68,6 +70,8 @@ async def stocks(ctx, ticker, history=None):
 
     await ctx.send(data)
 
+
+################################
 
 @stocks.error
 async def ticker_error(ctx, error):

@@ -19,7 +19,7 @@ ticker = 'AAPL'
 f_history = ft.finance_history(ticker)
 f_ticker = ft.get_ticker(ticker)
 f_info = ft.finance_helper(ticker)
-
+f_calendar = ft.finance_calendar(ticker)
 
 def roll(dice: str):
     """Rolls a dice in NdN format."""
@@ -34,4 +34,5 @@ def roll(dice: str):
 logger.info(f_info)
 logger.info(f_ticker)
 logger.info(f_history)
+logger.info(f_calendar)
 print(roll('10d6'))
