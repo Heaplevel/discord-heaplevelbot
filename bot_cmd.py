@@ -53,7 +53,17 @@ async def info_error(ctx, error: str):
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send(f'That command is missing a parameter. {error}')
 
+############################
 
+@bot.command()
+async def twitter(ctx):
+    raise RuntimeError('I cannot read Twitter yet')
+
+@twitter.error
+async def twitter_error(ctx, error: str):
+    await ctx.send(error)
+
+########################################
 @bot.command()
 async def sendfile(ctx, ticker):
     from discord.file import File
