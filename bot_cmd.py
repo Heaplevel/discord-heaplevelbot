@@ -17,7 +17,7 @@ logger.addHandler(ch)
 
 from discord.ext import commands
 
-import discord_bot.finance_helper as ft
+import finance_helper as ft
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 bot = commands.Bot(command_prefix='$')

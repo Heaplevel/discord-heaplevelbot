@@ -1,7 +1,7 @@
 import random
 import logging
 
-import discord_bot.finance_helper as ft
+import finance_helper as ft
 
 logger = logging.getLogger('test_logger')
 logger.setLevel(logging.DEBUG)
