@@ -1,0 +1,15 @@
+search_tweets_ent_example:
+  account_type: premium
+  endpoint: https://api.twitter.com/1.1/tweets/search/30day/dev.json
+  consumer_key: 0b8LK06HOyv02gwgQ37RcBfB3
+  consumer_secret: dO1v4Gs39FWxJkGgTMCGp5xqaMHD287pt28bRmymH02vb3S7fS
+  bearer_token: AAAAAAAAAAAAAAAAAAAAACIgMwEAAAAArSAJ4AApTDsB7iXNI87cBNCZMQA%3DC2Z3eP4SIVRi8PEXwUZCu0TCW6DZl6YTvkchjZTSF3F48QnDX6
+
+# 0b8LK06HOyv02gwgQ37RcBfB3 api key
+# dO1v4Gs39FWxJkGgTMCGp5xqaMHD287pt28bRmymH02vb3S7fS api key secret
+# AAAAAAAAAAAAAAAAAAAAACIgMwEAAAAArSAJ4AApTDsB7iXNI87cBNCZMQA%3DC2Z3eP4SIVRi8PEXwUZCu0TCW6DZl6YTvkchjZTSF3F48QnDX6 bearer token
+
+# 1360119783346368513-ZezJ7d7dQEsHq4Z3AfX3DHJbvX1Oto access token
+# Ikt0NuMRUGUXJcXYAQWjf38sQeDJ0wexOWk2nSeLpjjgu access token secret
+
+

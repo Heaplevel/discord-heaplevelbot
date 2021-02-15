@@ -18,6 +18,7 @@ logger.addHandler(ch)
 from discord.ext import commands
 
 import finance_helper as ft
+from bot_twitter_tests import read_tweets
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 bot = commands.Bot(command_prefix='$')
@@ -125,5 +126,23 @@ async def roll(ctx, dice: str):
 
     result = ', '.join(str(random.randint(1, limit)) for _ in range(rolls))
     await ctx.send(result)
+
+
+#################################
+
+@bot.command()
+async def tweets(ctx, term: str = 'fifa'):
+    tweets = read_tweets(term)
+    output = '\n\n'.join(tweets)
+    await ctx.send(output)
+
+
+@tweets.error
+async def tweets_error(ctx, error):
+    if isinstance(error, commands.CommandError):
+        await ctx.send(f'Received general error when querying tweets: <{error}>')
+
+
+#################################
 
 bot.run(TOKEN)
