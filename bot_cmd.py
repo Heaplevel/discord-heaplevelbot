@@ -13,12 +13,12 @@ ch.setLevel(logging.DEBUG)
 
 logger.addHandler(fh)
 logger.addHandler(ch)
-#
+
 
 from discord.ext import commands
-
 import finance_helper as ft
-from bot_twitter_tests import read_tweets
+from bot_twitter import read_tweets
+
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 bot = commands.Bot(command_prefix='$')
@@ -133,8 +133,7 @@ async def roll(ctx, dice: str):
 @bot.command()
 async def tweets(ctx, term: str = 'fifa'):
     tweets = read_tweets(term)
-    output = '\n\n'.join([t.all_text for t in tweets])
-    await ctx.send(output)
+    await ctx.send(tweets)
 
 
 @tweets.error

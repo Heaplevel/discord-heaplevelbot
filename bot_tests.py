@@ -2,7 +2,7 @@ import random
 import logging
 
 import finance_helper as ft
-from bot_twitter_tests import read_tweets
+from bot_twitter import read_tweets
 
 logger = logging.getLogger('test_logger')
 logger.setLevel(logging.DEBUG)
@@ -47,9 +47,5 @@ def finance_test():
 def tweets_test():
     tweets = read_tweets('fifa')
     print(tweets)
-    formatted_tweets = '\n\n'.join([t.all_text for t in tweets])
-    print(formatted_tweets)
-
-
 
 tweets_test()
