@@ -2,6 +2,7 @@ import random
 import logging
 
 import finance_helper as ft
+from bot_twitter_tests import read_tweets
 
 logger = logging.getLogger('test_logger')
 logger.setLevel(logging.DEBUG)
@@ -14,30 +15,41 @@ logger.addHandler(ch)
 
 cache = {}
 
-ticker = 'AAPL'
 
-f_history = ft.finance_history(ticker)
-f_ticker = ft.get_ticker(ticker)
-f_info = ft.finance_helper(ticker)
-f_calendar = ft.finance_calendar(ticker)
-f_path = ft.finance_plot(ticker)
+def finance_test():
+    ticker = 'AAPL'
 
-def roll(dice: str):
-    """Rolls a dice in NdN format."""
-    try:
-        rolls, limit = map(int, dice.split('d'))
-    except Exception:
-        return
+    f_history = ft.finance_history(ticker)
+    f_ticker = ft.get_ticker(ticker)
+    f_info = ft.finance_helper(ticker)
+    f_calendar = ft.finance_calendar(ticker)
+    f_path = ft.finance_plot(ticker)
 
-    result = ', '.join(str(random.randint(1, limit)) for _ in range(rolls))
-    return result
+    def roll(dice: str):
+        """Rolls a dice in NdN format."""
+        try:
+            rolls, limit = map(int, dice.split('d'))
+        except Exception:
+            return
 
-
-logger.info(f_info)
-logger.info(f_ticker)
-logger.info(f_history)
-logger.info(f_calendar)
-logger.info(f_path)
-print(roll('10d6'))
+        result = ', '.join(str(random.randint(1, limit)) for _ in range(rolls))
+        return result
 
 
+    logger.info(f_info)
+    logger.info(f_ticker)
+    logger.info(f_history)
+    logger.info(f_calendar)
+    logger.info(f_path)
+    print(roll('10d6'))
+
+
+def tweets_test():
+    tweets = read_tweets('fifa')
+    print(tweets)
+    formatted_tweets = '\n\n'.join([t.all_text for t in tweets])
+    print(formatted_tweets)
+
+
+
+tweets_test()
