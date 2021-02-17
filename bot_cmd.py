@@ -133,7 +133,8 @@ async def roll(ctx, dice: str):
 @bot.command()
 async def tweets(ctx, term: str = 'fifa'):
     tweets = read_tweets(term)
-    await ctx.send(tweets)
+    for t in tweets:
+        await ctx.send(t)
 
 
 @tweets.error

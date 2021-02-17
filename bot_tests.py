@@ -45,7 +45,7 @@ def finance_test():
 
 
 def tweets_test():
-    tweets = read_tweets('fifa')
+    tweets = read_tweets('sveriges myndighet')
     print(tweets)
 
 tweets_test()
