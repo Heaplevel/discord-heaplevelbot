@@ -65,6 +65,8 @@ async def twitter_error(ctx, error: str):
     await ctx.send(error)
 
 ########################################
+
+
 @bot.command()
 async def sendfile(ctx, ticker):
     from discord.file import File
@@ -144,5 +146,16 @@ async def tweets_error(ctx, error):
 
 
 #################################
+
+@bot.command()
+async def commands(ctx):
+    await ctx.send(bot.commands)
+
+
+@commands.error
+async def commands_error(ctx, error):
+    if isinstance(error, commands.CommandError):
+        await ctx.send(f'Received general error when querying commands: <{error}>')
+
 
 bot.run(TOKEN)
