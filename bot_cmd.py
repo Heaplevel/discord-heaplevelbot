@@ -149,7 +149,7 @@ async def tweets_error(ctx, error):
 
 @bot.command()
 async def commands(ctx):
-    await ctx.send(bot.commands)
+    await ctx.send([command.name for command in bot.commands])
 
 
 @commands.error
