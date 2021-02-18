@@ -18,11 +18,11 @@ logger.addHandler(ch)
 from discord.ext import commands
 import finance_helper as ft
 from bot_twitter import read_tweets
-
+import greetings_cog
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 bot = commands.Bot(command_prefix='$')
-
+bot.add_cog(greetings_cog.Greetings(bot))
 
 @bot.event
 async def on_error(event: str):
@@ -38,6 +38,11 @@ async def on_ready():
     logger.debug('------')
     logger.debug(bot.guilds)
     logger.debug(bot.emojis)
+
+
+@bot.event
+async def on_disconnect():
+    logger.debug('Disconnected...')
 
 
 @bot.command()
