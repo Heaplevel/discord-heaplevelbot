@@ -1,6 +1,7 @@
 import os
 import random
 import logging
+import asyncio
 
 # Setup logger
 logger = logging.getLogger('bot_logger')
@@ -15,14 +16,34 @@ logger.addHandler(fh)
 logger.addHandler(ch)
 
 
+from discord.message import Message
 from discord.ext import commands
 import finance_helper as ft
 from bot_twitter import read_tweets
 import greetings_cog
 
+
 TOKEN = os.getenv('DISCORD_TOKEN')
 bot = commands.Bot(command_prefix='$')
 bot.add_cog(greetings_cog.Greetings(bot))
+
+
+@bot.event
+async def on_message(message: Message):
+    if message.content.startswith('$thumb'):
+        channel = message.channel
+        await channel.send('Send me a thumbs up mate')
+
+        def check(reaction, user):
+            return user == message.author and str(reaction.emoji) == '👍'
+
+        try:
+            reaction, user = await bot.wait_for('reaction_add', timeout=60.0, check=check)
+        except asyncio.TimeoutError:
+            await channel.send('👎')
+        else:
+            await channel.send('👍')
+
 
 @bot.event
 async def on_error(event: str):

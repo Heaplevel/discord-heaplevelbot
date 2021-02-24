@@ -39,9 +39,13 @@ def finance_helper(stock):
 
     ticker = get_ticker(stock)
     # Some basic company info
-    for k, v in ticker.info.items():
-        l.append(':'.join([k, str(v)]))
-    ticker_info = '\n'.join(l[:3])
+    info = ticker.info
+    ticker_info = [info.get('longBusinessSummary'),
+                   info.get('sector'),
+                   info.get('website')
+                   ]
+
+    ticker_info = '\n'.join(ticker_info)
 
     # Some recommendations from big companies
     recommendations = ticker.recommendations.tail(5).to_string()
