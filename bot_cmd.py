@@ -19,10 +19,16 @@ logger.addHandler(ch)
 from discord.message import Message
 from discord.ext import commands
 import finance_helper as ft
-from bot_twitter import read_tweets
+from bot_twitter import read_tweets, split_2000
 import greetings_cog
 
+"""
+Ideas
 
+schedule morning messages based on timezone
+send some messages for each command and check status
+ping @channel for news
+"""
 TOKEN = os.getenv('DISCORD_TOKEN')
 bot = commands.Bot(command_prefix='$')
 bot.add_cog(greetings_cog.Greetings(bot))
@@ -43,6 +49,9 @@ async def on_message(message: Message):
             await channel.send('👎')
         else:
             await channel.send('👍')
+    else:
+        await bot.process_commands(message)
+
 
 
 @bot.event
@@ -116,13 +125,18 @@ async def stocks(ctx, ticker, param=None, start=None, end=None):
         await ctx.send(f'Tada!')
         logger.debug(data)
 
-    await ctx.send(data)
+    data = split_2000(data)
+    for d in data:
+        await ctx.send(d)
 
 
 ################################
 
 @stocks.error
 async def ticker_error(ctx, error):
+    if isinstance(error, commands.CommandInvokeError):
+        await ctx.send(error)
+
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send('That command is missing a parameter')
 

@@ -26,11 +26,14 @@ def read_tweets(term):
     tweets = collect_results(rule, 100, premium_search_args)
     print(tweets[:10])
     output = '\n\n'.join([f'@{t.screen_name}: {t.all_text}' for t in tweets[:10]])
-
-    if len(output) > 2000:
-        n = 2000  # chunk length
-        output = [output[i:i + n] for i in range(0, len(output), n)]
-    else:
-        output = [output]
-
+    output = split_2000(output)
     return output
+
+
+def split_2000(message):
+    if len(message) > 2000:
+        n = 2000  # chunk length
+        message = [message[i:i + n] for i in range(0, len(message), n)]
+    else:
+        message = [message]
+    return message

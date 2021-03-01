@@ -2,7 +2,7 @@ import random
 import logging
 
 import finance_helper as ft
-from bot_twitter import read_tweets
+from bot_twitter import read_tweets, split_2000
 
 logger = logging.getLogger('test_logger')
 logger.setLevel(logging.DEBUG)
@@ -31,6 +31,12 @@ def roll_test():
     print(roll('10d6'))
 
 
+def split_test():
+    x = split_2000('a'*2001)
+    assert len(x) == 2
+    print('SPLIT TEST SUCCESS')
+
+
 def finance_test():
     ticker = 'AAPL'
 
@@ -49,7 +55,14 @@ def finance_test():
 
 def tweets_test():
     tweets = read_tweets('sveriges myndighet')
+    assert len(tweets) > 2000
     print(tweets)
 
-#tweets_test()
-finance_test()
+
+TWEET,FINANCE,SPLIT=False,False,True
+if TWEET:
+    tweets_test()
+if FINANCE:
+    finance_test()
+if SPLIT:
+    split_test()
