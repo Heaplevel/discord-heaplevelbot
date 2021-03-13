@@ -12,8 +12,8 @@ RUN pip install -r requirements.txt
 COPY *.py *.yaml discord_bot/
 
 WORKDIR discord_bot/
-#COPY bot_cmd.py .
+#COPY commands.py .
 
 ENV PYTHONPATH .
-CMD ["python", "-u", "bot_cmd.py"]
+CMD ["python", "-u", "main.py"]
 
