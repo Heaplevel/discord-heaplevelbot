@@ -2,6 +2,7 @@ import locale
 import logging
 import os
 import time
+from pathlib import Path
 
 import discord
 from discord import utils
@@ -68,6 +69,6 @@ class Bot(commands.AutoShardedBot):
 
 
 Bot = Bot()
-
+# Create "logs" folder if not exist
+Path(f'{Path(__file__).parent.absolute()}/logs').mkdir(parents=True, exist_ok=True)
 Bot.run(os.getenv('DISCORD_TOKEN'))
-# Bot.run('')
