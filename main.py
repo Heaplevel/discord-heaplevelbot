@@ -1,4 +1,4 @@
-import locale
+#import locale
 import logging
 import os
 import time
@@ -8,7 +8,7 @@ import discord
 from discord import utils
 from discord.ext import commands
 
-locale.setlocale(locale.LC_ALL, "en_US.utf8")
+#locale.setlocale(locale.LC_ALL, "en_US.utf8")
 start_time = time.time()
 
 logger = logging.getLogger('bot_logger')
