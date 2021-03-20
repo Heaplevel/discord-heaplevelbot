@@ -23,7 +23,7 @@ MODULES = [
     'modules.commands',
     'modules.greetings',
     'modules.stocks',
-    # 'modules.tweets'
+    'modules.tweets'
 ]
 
 
