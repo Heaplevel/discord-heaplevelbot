@@ -9,7 +9,7 @@ RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 # copy src and yaml
-COPY *.py *.yaml discord_bot/
+COPY . discord_bot/
 RUN mkdir discord_bot/logs
 
 WORKDIR discord_bot/
