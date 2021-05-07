@@ -28,11 +28,12 @@ MODULES = [
 
 
 class Bot(commands.AutoShardedBot):
-    def __init__(self):
+    def __init__(self, intents=discord.Intents.default()):
+
         super(Bot, self).__init__(
             command_prefix="$",
             case_insensitive=True,
-            intents=discord.Intents.default())
+            intents=intents)
 
         for module in MODULES:
             try:
@@ -47,16 +48,16 @@ class Bot(commands.AutoShardedBot):
         end_time = time.time() - start_time
         await self.change_presence(status=discord.Status.online)
         start_info = f'''#-------------------------------#
-| Username: {self.user.name}
-| User ID: {self.user.id}
-| Developer:  HeapLevel
-| Guilds: {len(self.guilds)}
-| Emojis: {len(self.emojis)}
-| Users: {len([member for member in self.users if not member.bot])}
-| Base OAuth URL: {utils.oauth_url(self.user.id)}
-| Bot started in {"%.3f" % end_time} seconds
-| Current Discord.py Version: {discord.__version__}
-# ------------------------------#'''
+                            | Username: {self.user.name}
+                            | User ID: {self.user.id}
+                            | Developer:  HeapLevel
+                            | Guilds: {len(self.guilds)}
+                            | Emojis: {len(self.emojis)}
+                            | Users: {len([member for member in self.users if not member.bot])}
+                            | Base OAuth URL: {utils.oauth_url(self.user.id)}
+                            | Bot started in {"%.3f" % end_time} seconds
+                            | Current Discord.py Version: {discord.__version__}
+                        # ------------------------------#'''
 
         logger.debug(start_info)
         print(start_info)
@@ -68,7 +69,9 @@ class Bot(commands.AutoShardedBot):
         logger.debug(f'{self.user.name} status: Disconnected...')
 
 
-Bot = Bot()
+intents = discord.Intents(members=True)
+#intents.members = True
+Bot = Bot(intents=intents)
 # Create "logs" folder if not exist
 Path(f'{Path(__file__).parent.absolute()}/logs').mkdir(parents=True, exist_ok=True)
 Bot.run(os.getenv('DISCORD_TOKEN'))
