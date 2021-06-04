@@ -1,17 +1,25 @@
 import discord
 from discord.ext import commands
 
+import logging
+logger = logging.getLogger('bot_logger')
+
 
 class Greetings(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self._last_member = None
+        logger.debug(f'Loading Cog[Greetings]')
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
         channel = member.guild.system_channel
         if channel is not None:
             await channel.send('Welcome {0.mention}.'.format(member))
+
+    @commands.Cog.listener()
+    async def on_reaction_add(self, reaction, user):
+        logger.debug(f'Someone reacted to a message {reaction}, {user}')
 
     @commands.command()
     async def hello(self, ctx, *, member: discord.Member = None):

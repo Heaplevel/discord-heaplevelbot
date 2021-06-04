@@ -1,6 +1,6 @@
 #import locale
 import logging
-import os
+import os, sys
 import time
 from pathlib import Path
 
@@ -18,22 +18,22 @@ fh = logging.FileHandler(filename=f"./logs/bot_debug.log",
 
 logger.addHandler(fh)
 
-# Todo: Enable each module in modules folder by adding "modules.{filename}" into the following list.
 MODULES = [
     'modules.commands',
     'modules.greetings',
     'modules.stocks',
-    'modules.tweets'
+    'modules.tweets',
+    'modules.scheduled_commands'
 ]
 
 
 class Bot(commands.AutoShardedBot):
-    def __init__(self, intents=discord.Intents.default()):
+    def __init__(self):
 
         super(Bot, self).__init__(
             command_prefix="$",
             case_insensitive=True,
-            intents=intents)
+            intents=discord.Intents(messages=True, members=True, reactions=True, guilds=True))
 
         for module in MODULES:
             try:
@@ -42,6 +42,9 @@ class Bot(commands.AutoShardedBot):
                 print(f'{module} not loaded.')
                 print("_____________________")
                 print(e)
+
+    async def on_connect(self):
+        logger.debug('Starting route to connect...')
 
     async def on_ready(self):
         """Output after the Bot fully loaded"""
@@ -62,16 +65,41 @@ class Bot(commands.AutoShardedBot):
         logger.debug(start_info)
         print(start_info)
 
+    async def on_typing(self, channel, user, when):
+        logger.debug(f'Someone is typing in {channel}, {user}, {when}')
+
+    async def on_member_update(self, before: discord.Member, after: discord.Member):
+        logger.debug(f'A member was updated {before.nick}, {after.nick}')
+
+
+    async def on_message(self, message: discord.Message):
+        guild: discord.Guild
+        for guild in self.guilds:
+            for channel in guild.channels:
+                print(f'{channel.name}')
+
+        ctx :discord.ext.commands.Context = await self.get_context(message)
+        if ctx.valid:
+            logger.debug(f'Context is valid, yes go on')
+            await ctx.send(f'Content is valid...')
+        else:
+            logger.debug('Sorry m8 no context is valid here')
+
+
+        logger.debug(f'What is this message here: {message.content} \n'
+                     f'These are the channels: {[channel for channel in self.get_all_members()]}')
+
     async def on_error(self, event_name, *args, **kwargs):
-        logger.debug(f'Just another error {event_name}')
+        logger.debug(f'[Bot.Client] Just another error {event_name} \n'
+                     f'{sys.exc_info()}')
 
     async def on_disconnect(self):
         logger.debug(f'{self.user.name} status: Disconnected...')
 
 
-intents = discord.Intents(members=True)
-#intents.members = True
-Bot = Bot(intents=intents)
+intents = discord.Intents.default()
+intents.members = True
+Bot = Bot()
 # Create "logs" folder if not exist
 Path(f'{Path(__file__).parent.absolute()}/logs').mkdir(parents=True, exist_ok=True)
 Bot.run(os.getenv('DISCORD_TOKEN'))

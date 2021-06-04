@@ -11,7 +11,6 @@ class MyTestCase(unittest.TestCase):
     def test_something(self):
         scheduler = sched.scheduler()
         scheduler.run()
-        scheduler.enterabs()
 
     def test_every_stuff(self):
         s = Scheduler()

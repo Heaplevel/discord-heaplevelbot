@@ -1,4 +1,4 @@
-discord.py>=1.6.0
+discord.py>=1.7.0
 yfinance>=0.1.55
 lxml>=4.6.2
 numpy>=1.20.1
