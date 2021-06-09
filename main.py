@@ -18,6 +18,8 @@ fh = logging.FileHandler(filename=f"./logs/bot_debug.log",
 
 logger.addHandler(fh)
 
+#TODO twitter scheduled functions or something with how it can be tested
+#TODO connect weather module and schedule to post. Test.
 MODULES = [
     'modules.commands',
     'modules.greetings',
