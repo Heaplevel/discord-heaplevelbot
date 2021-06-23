@@ -1,5 +1,4 @@
 #import locale
-import logging
 import os, sys
 import time
 from pathlib import Path
@@ -7,16 +6,12 @@ from pathlib import Path
 import discord
 from discord import utils
 from discord.ext import commands
+from config import logger
 
 #locale.setlocale(locale.LC_ALL, "en_US.utf8")
 start_time = time.time()
 
-logger = logging.getLogger('bot_logger')
-logger.setLevel(logging.DEBUG)
-fh = logging.FileHandler(filename=f"./logs/bot_debug.log",
-                         encoding='utf-8', mode='w+')
 
-logger.addHandler(fh)
 
 #TODO twitter scheduled functions or something with how it can be tested
 #TODO connect weather module and schedule to post. Test.
@@ -25,7 +20,8 @@ MODULES = [
     'modules.greetings',
     'modules.stocks',
     'modules.tweets',
-    'modules.scheduled_commands'
+    'modules.scheduled_commands',
+    'modules.weather'
 ]
 
 
@@ -74,22 +70,22 @@ class Bot(commands.AutoShardedBot):
         logger.debug(f'A member was updated {before.nick}, {after.nick}')
 
 
-    async def on_message(self, message: discord.Message):
-        guild: discord.Guild
-        for guild in self.guilds:
-            for channel in guild.channels:
-                print(f'{channel.name}')
-
-        ctx :discord.ext.commands.Context = await self.get_context(message)
-        if ctx.valid:
-            logger.debug(f'Context is valid, yes go on')
-            await ctx.send(f'Content is valid...')
-        else:
-            logger.debug('Sorry m8 no context is valid here')
-
-
-        logger.debug(f'What is this message here: {message.content} \n'
-                     f'These are the channels: {[channel for channel in self.get_all_members()]}')
+    # async def on_message(self, message: discord.Message):
+    #     guild: discord.Guild
+    #     for guild in self.guilds:
+    #         for channel in guild.channels:
+    #             print(f'{channel.name}')
+    #
+    #     ctx :discord.ext.commands.Context = await self.get_context(message)
+    #     if ctx.valid:
+    #         logger.debug(f'Context is valid, yes go on')
+    #         await ctx.send(f'Content is valid...')
+    #     else:
+    #         logger.debug('Sorry m8 no context is valid here')
+    #
+    #
+    #     logger.debug(f'What is this message here: {message.content} \n'
+    #                  f'These are the channels: {[channel for channel in self.get_all_members()]}')
 
     async def on_error(self, event_name, *args, **kwargs):
         logger.debug(f'[Bot.Client] Just another error {event_name} \n'
