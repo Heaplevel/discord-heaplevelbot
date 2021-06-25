@@ -1,6 +1,7 @@
 import configparser
 import requests
 from datetime import datetime
+from collections import namedtuple
 
 
 class OpenWeatherError(Exception):
@@ -11,9 +12,9 @@ class OpenWeatherError(Exception):
 
 class OpenWeatherClient(object):
 
-    def __init__(self):
+    def __init__(self, keyfile):
         config = configparser.ConfigParser()
-        if len(config.read('key.ini')) == 0:
+        if len(config.read(keyfile)) == 0:
             raise OpenWeatherError(f'Error when reading key file for API Client')
 
         ow = config['Openweather']
@@ -26,11 +27,17 @@ class OpenWeatherClient(object):
         days = result['list']
 
         forecast = []
+        forecast_nt = namedtuple('Forecast', 'dt main temp feels_like min_temp max_temp icon')
+
         for day in days:
             dt = datetime.utcfromtimestamp(day["dt"])
-            print(dt)
             weather_main, weather_icon = day["weather"][0]["main"], day["weather"][0]["icon"]
             icon_url = f'http://openweathermap.org/img/wn/{weather_icon}@2x.png'
             icon_b = requests.get(icon_url)
 
-            forecast.append(f'{day["main"]["temp"]} {day["main"]["feels_like"]} {day["main"]["temp_min"]} {day["main"]["temp_max"]}')
+            forecast.append(
+                forecast_nt(dt, weather_main, day["main"]["temp"], day["main"]["feels_like"], day["main"]["temp_min"],
+                            day["main"]["temp_max"],
+                            weather_icon)
+            )
+        return forecast
