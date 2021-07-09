@@ -1,5 +1,4 @@
 import unittest
-import requests
 
 from pathlib import Path
 
@@ -27,3 +26,6 @@ class OpenWeatherApiTest(unittest.TestCase):
                                                   )
             print(fmt)
             self.assertIsNotNone(fc_nt.main)
+
+if __name__ == '__main__':
+    unittest.main()
